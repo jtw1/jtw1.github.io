@@ -77,7 +77,7 @@
 		<nav class="header-nav">
 			<div class="social">
 				
-					<a class="github" target="_blank" href="https://github.com/" title="github"><i class="icon-github"></i></a>
+					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
 		        
 					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
 		        
@@ -151,6 +151,238 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-一道快手高频面试题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/06/09/%E4%B8%80%E9%81%93%E5%BF%AB%E6%89%8B%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%E9%A2%98/">一道快手高频面试题</a>
+    </h1>
+  
+
+        
+        <a href="/2021/06/09/%E4%B8%80%E9%81%93%E5%BF%AB%E6%89%8B%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%E9%A2%98/" class="archive-article-date">
+  	<time datetime="2021-06-09T11:43:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>描述</p>
+</blockquote>
+<p>数组小和的定义如下：</p>
+<p>例如，数组s = [1, 3, 5, 2, 4, 6]，在s[0]的左边小于或等于s[0]的数的和为0；在s[1]的左边小于或等于s[1]的数的和为1；在s[2]的左边小于或等于s[2]的数的和为1+3=4；在s[3]的左边小于或等于s[3]的数的和为1；</p>
+<p>在s[4]的左边小于或等于s[4]的数的和为1+3+2=6；在s[5]的左边小于或等于s[5]的数的和为1+3+5+2+4=15。所以s的小和为0+1+4+1+6+15=27</p>
+<p>给定一个数组s，实现函数返回s的小和</p>
+<p>[要求]</p>
+<p>时间复杂度为O(nlogn)，空间复杂度为O(n)</p>
+<p><a target="_blank" rel="noopener" href="https://www.nowcoder.com/practice/edfe05a1d45c4ea89101d936cac32469?tpId=101&tqId=33089&tPage=1&rp=1&ru=/ta/programmer-code-interview-guide">计算数组的小和_牛客题霸_牛客网 (nowcoder.com)</a> </p>
+<blockquote>
+<p>思路</p>
+</blockquote>
+<p>主要思想是利用归并排序，将数组划分为两部分 [left,mid]和[mid+1,right]，归并排序的过程是先拆分，直到不可拆分，即，左右两部分都只有一个数，只有一个数，这两部分肯定是有序的，再根据大小合并回去。</p>
+<p>所以，在这里，可以默认[left,mid]和[mid+1,right]这两部分都是有序的，</p>
+<p>   <strong>整个数组的小和=数组左半部分贡献的小和+数组右半部分贡献的小和+左右两部分之间贡献的小和</strong></p>
+<p>整个思路大概是这样，然后具体看左右两部分之间贡献的小和，这里有两个可以优化的地方：</p>
+<ol>
+<li><p>左半部分最大值&lt;=右半部分最小值时  ，即 arr[mid]&lt;=arr[mid+1] 时，左半部分的值都比右半部分的小，所以 左右两部分之间贡献的小和=sum(left,mid)*(右半部分元素的个数)，然后直接返回对应结果</p>
+</li>
+<li><p><strong>拷贝数组要使用一个全局变量</strong>，尽量不要定义在merge函数中，递归的过程中可能存在很多次调用，定义在merge函数中，每次都要经历一次 重新分配一次内存，调用完后释放内存的过程，在递归深度很深时，这个是非常耗时的，所以拷贝数组要尽量使用一个全局变量。</p>
+</li>
+</ol>
+<p>详细代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] tmp=<span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">100000</span>];</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Scanner sc=<span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        <span class="keyword">int</span> N=sc.nextInt();</span><br><span class="line">        <span class="keyword">int</span>[] arr=<span class="keyword">new</span> <span class="keyword">int</span>[N];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;N;i++)&#123;</span><br><span class="line">            arr[i]=sc.nextInt();</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">long</span> count=getMinSum(arr,<span class="number">0</span>,N-<span class="number">1</span>);</span><br><span class="line">        System.out.println(count);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> left,<span class="keyword">int</span> mid,<span class="keyword">int</span> right)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> len=arr.length;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">int</span> i=left,j=mid+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> k=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">long</span> res=<span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(i&lt;=mid &amp;&amp; j&lt;=right)&#123;</span><br><span class="line">            <span class="keyword">if</span>(arr[i]&lt;=arr[j])&#123;</span><br><span class="line">                res += (right-j+<span class="number">1</span>)*arr[i];</span><br><span class="line">                tmp[k++]=arr[i++];</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                tmp[k++]=arr[j++];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(i&lt;=mid) tmp[k++]=arr[i++];</span><br><span class="line">        <span class="keyword">while</span>(j&lt;=right) tmp[k++]=arr[j++];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(i=left,k=<span class="number">0</span>;i&lt;=right;i++)&#123;</span><br><span class="line">            arr[i]=tmp[k++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">long</span> <span class="title">getMinSum</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> left,<span class="keyword">int</span> right)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(left==right) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> mid=(left+right)/<span class="number">2</span>;</span><br><span class="line">        <span class="comment">// 分别计算 左半部分小和    右半部分小和</span></span><br><span class="line">        <span class="keyword">long</span> lSum=getMinSum(arr,left,mid);</span><br><span class="line">        <span class="keyword">long</span> rSum=getMinSum(arr,mid+<span class="number">1</span>,right);</span><br><span class="line">        <span class="keyword">if</span>(arr[mid]&lt;=arr[mid+<span class="number">1</span>])&#123;</span><br><span class="line">            <span class="keyword">long</span> tmpSum=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=left;i&lt;=mid;i++)&#123;</span><br><span class="line">                tmpSum += arr[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> lSum+rSum+tmpSum*(right-mid);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 两部分之间贡献的小和</span></span><br><span class="line">        <span class="keyword">long</span> crossSum=merge(arr,left,mid,right);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> lSum+rSum+crossSum;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/06/09/%E4%B8%80%E9%81%93%E5%BF%AB%E6%89%8B%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%E9%A2%98/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-小马过河" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/06/09/%E5%B0%8F%E9%A9%AC%E8%BF%87%E6%B2%B3/">小马过河</a>
+    </h1>
+  
+
+        
+        <a href="/2021/06/09/%E5%B0%8F%E9%A9%AC%E8%BF%87%E6%B2%B3/" class="archive-article-date">
+  	<time datetime="2021-06-09T11:43:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>题目</p>
+</blockquote>
+<p>有n个人要过一条河，每个人过河都需要一个时间aiai，有一艘船，每次过河只能最多装两个人。两个人划船过河所需的时间都取决于过河时间长的那个人。比如，A，B两人过河所需时间分别为a，b，那么，他们成一条船过河所需的时间为：max{a，b}。现在让你安排一个过河方案，让所有人用最短的时间全部过河。<br>————————————————<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36306833/article/details/68941731">https://blog.csdn.net/qq_36306833/article/details/68941731</a></p>
+<blockquote>
+<p>思路分析</p>
+</blockquote>
+<p>首先研究一个问题，就是在没过河的人有4个及4个以上的情况下，我们设其中四人为a、b、c、d，并且所需时间a&lt;b&lt;c&lt;d，那么，我现在想让c、d过河，然后再让船回到过河前的位置，准备好继续送其他的人过河。那么我这里有两种运载方式：</p>
+<ol>
+<li><p><strong>a分别送c d过河</strong>，因为a所需时间最小，所以每次把船送回来的时间也是最小的，选择a来送可能是最优方法，过河顺序为：</p>
+<ol>
+<li>a，c过河</li>
+<li>a返回</li>
+<li>a，d过河</li>
+<li>a返回</li>
+</ol>
+<p>消耗时间<code>t1=2a+c+d</code></p>
+</li>
+<li><p><strong>c d一起过河，由a,b负责把船运回，</strong>如果c,d过河时间都很长，那就让他们一起过去，这样就可以很有效的去除掉相比较来说所需时间较小的c的过河时间。然后我再让一个提前在对岸守好的b（之前由a送到对岸），再来把船还回去。过河顺序为：</p>
+<ol>
+<li>a，b过河</li>
+<li>a返回,b留下</li>
+<li>c，d过河</li>
+<li>b返回</li>
+</ol>
+<p>消耗时间<code>t2=2b+a+d</code>，<code>t1-t2=a+c-2b</code>，也就是说选择两种方案的哪一种，和<code>a+c−2b</code>的值有关。</p>
+<blockquote>
+<p><strong>贪心策略</strong></p>
+</blockquote>
+</li>
+</ol>
+<p>在要过河人数n≥4的时候，我先用上述两种方法中较好的一个，把最大的两个送过河（用过河时间最少的人作为上述方法的a，第二少的作为上述方法的b）。然后该问题就变成了：寻找把剩下的n-2个人送过河的最优策略。反复执行此策略，直到n=2时，显然两个人直接过去就行了，n=3时，用最小的分别把两个送过去为最优（三个人过河，显然就是：过去两个人，回来一个，在过去两个，两次过去两个的花费分别为：b、c，那这个回来的人，应该是a才能最快，也就是让a分别送b、c。）</p>
+<blockquote>
+<p>思路可行性证明</p>
+</blockquote>
+<blockquote>
+<ol>
+<li>为什么先送的应该是最慢的两个</li>
+</ol>
+</blockquote>
+<ol>
+<li><p>若a(1)+a(n-1)-2a(2)&lt;0, (分别对应上面的a,c,b)那么，就说明，用最小a1的分别单独送an−1,an优于让an−1和an一起过河,由于其他的a(i)（i&lt;n-1）&lt; a(n-1),  所以a(1)+a(i)-2a(2)&lt;0，所以让最小的a1分别送所有的人，优于让他们中的任意两个人组合一起过河。</p>
+</li>
+<li><p>若存在若干个 a(i)满足  a(1)+a(i)-2a(2)&gt;0   那么也就是说明，满足这个条件的这些ai都有一个特点，那就是，让他和任意一个比他大的一起过河，都应该是要优于让最小的分别送他和那个比他大的过河。对于这些满足这个条件的ai，应该让他们怎么组合，才能得到最优的结果呢：</p>
+<p>设x=2a(2)-a(1),  那么 a1≤a2≤….≤a(i−1)≤x≤ai≤…≤an</p>
+<p>对于x左边的，让a1分别送最好，对于x右边的，任意两个组合都比这两个单独让a1送要快。假设   让ai和an一起，aj和a(n−1)一起，那么他们的时间花费为：a(n−1)+an。   </p>
+<p>如果让 a(n−1)和an一起，ai和aj一起, 那么他们的时间花费为：an+max{ai,  aj}&lt;a(n−1)+an</p>
+<p><strong>所以  a(n−1)和an在一起一定优于让他们分别和其他的任意一个组合一起过河。</strong></p>
+</li>
+</ol>
+<blockquote>
+<ol start="2">
+<li>为什么要用最快的两个人帮助运送其他的人</li>
+</ol>
+</blockquote>
+<p>如果慢的人单独过，显然让最快的a1来送</p>
+<p>如果两人（最慢和次慢的）一起过，那么也显然是借用最快的a1,a2来进行船的调度最快。可以参照t1,t2公式</p>
+<p>实现代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CrossRiver</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">minCost</span><span class="params">(<span class="keyword">int</span>[] nums)</span></span>&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 每次过河时间取决于时间长的那个人</span></span><br><span class="line"><span class="comment">         * 先送最慢的两个人，用最快的两人帮助运送其他人</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> len=nums.length;</span><br><span class="line">        Arrays.sort(nums);</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(len==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">if</span>(len==<span class="number">2</span>) <span class="keyword">return</span> res+Math.max(nums[<span class="number">0</span>],nums[<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">if</span>(len==<span class="number">3</span>) <span class="keyword">return</span> res+nums[<span class="number">0</span>]+nums[<span class="number">1</span>]+nums[<span class="number">2</span>];</span><br><span class="line">            <span class="comment">//</span></span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * 最快的那个人(序号为0)分两次带最慢的两个人(序号为len-1，len-2)过河</span></span><br><span class="line"><span class="comment">             * (0,len-1)---&gt;0送len-1过来，所花时间为nums[len-1]</span></span><br><span class="line"><span class="comment">             * 0&lt;---len-1  0返回，所花时间为nums[0]</span></span><br><span class="line"><span class="comment">             * (0,len-2)---&gt;0送len-2过来,所花时间为nums[len-2]</span></span><br><span class="line"><span class="comment">             * 0&lt;---len-1,len-2  0返回，所花时间为nums[0]</span></span><br><span class="line"><span class="comment">             * 总共花的时间为  2*nums[0]+nums[len-1]+nums[len-2];</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="keyword">int</span> cost1=<span class="number">2</span>*nums[<span class="number">0</span>]+nums[len-<span class="number">1</span>]+nums[len-<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * 如果最慢的两个人过河都需要很长时间，那就让他们两个一起过河</span></span><br><span class="line"><span class="comment">             * 最快的和第二快的那个人(序号为0，1)负责运船，最慢的两个人(序号为len-1，len-2)一起过河</span></span><br><span class="line"><span class="comment">             * (0,1)---&gt;0留下，所花时间为nums[1]</span></span><br><span class="line"><span class="comment">             * 1&lt;---0   1返回，所花时间为nums[1]</span></span><br><span class="line"><span class="comment">             * (len-2,len-1)---&gt;0   len-2,len-1过来，所花时间为nums[len-1]</span></span><br><span class="line"><span class="comment">             * 0，1&lt;---len-1,len-2  0把船送回去，所花时间为nums[0]</span></span><br><span class="line"><span class="comment">             * 总共花的时间为  2*nums[1]+nums[len-1]+nums[0];</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="keyword">int</span> cost2=<span class="number">2</span>*nums[<span class="number">1</span>]+nums[len-<span class="number">1</span>]+nums[<span class="number">0</span>];</span><br><span class="line">            len-=<span class="number">2</span>;</span><br><span class="line">            res += Math.min(cost1,cost2);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/06/09/%E5%B0%8F%E9%A9%AC%E8%BF%87%E6%B2%B3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-BFS-DFS" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">

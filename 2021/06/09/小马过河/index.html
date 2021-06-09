@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>BFS/DFS | Hexo</title>
+  <title>小马过河 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="BFS &amp;&amp; DFS DFS  从图中一个未访问的顶点V开始，沿着一条路一直走到底，然后从这条路尽头节点回退到上一个节点，再从另一条路开始走到底….不断递归重复，直到所有节点都遍历完成， 不装南墙不回头 Ex: 可以递归实现，也可以用栈实现树的DFS，一 对每个结点来说，先遍历当前节点V，再然后把v.right压栈，再压v.left(这样出栈的时候会先拿到左节点遍历，符合深搜要求)">
+  <meta name="description" content="题目  有n个人要过一条河，每个人过河都需要一个时间aiai，有一艘船，每次过河只能最多装两个人。两个人划船过河所需的时间都取决于过河时间长的那个人。比如，A，B两人过河所需时间分别为a，b，那么，他们成一条船过河所需的时间为：max{a，b}。现在让你安排一个过河方案，让所有人用最短的时间全部过河。————————————————原文链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_36">
 <meta property="og:type" content="article">
-<meta property="og:title" content="BFS&#x2F;DFS">
-<meta property="og:url" content="http://example.com/2021/06/05/BFS-DFS/index.html">
+<meta property="og:title" content="小马过河">
+<meta property="og:url" content="http://example.com/2021/06/09/%E5%B0%8F%E9%A9%AC%E8%BF%87%E6%B2%B3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="BFS &amp;&amp; DFS DFS  从图中一个未访问的顶点V开始，沿着一条路一直走到底，然后从这条路尽头节点回退到上一个节点，再从另一条路开始走到底….不断递归重复，直到所有节点都遍历完成， 不装南墙不回头 Ex: 可以递归实现，也可以用栈实现树的DFS，一 对每个结点来说，先遍历当前节点V，再然后把v.right压栈，再压v.left(这样出栈的时候会先拿到左节点遍历，符合深搜要求)">
+<meta property="og:description" content="题目  有n个人要过一条河，每个人过河都需要一个时间aiai，有一艘船，每次过河只能最多装两个人。两个人划船过河所需的时间都取决于过河时间长的那个人。比如，A，B两人过河所需时间分别为a，b，那么，他们成一条船过河所需的时间为：max{a，b}。现在让你安排一个过河方案，让所有人用最短的时间全部过河。————————————————原文链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_36">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-06-05T02:54:57.000Z">
-<meta property="article:modified_time" content="2021-06-05T14:39:46.036Z">
+<meta property="article:published_time" content="2021-06-09T11:43:04.000Z">
+<meta property="article:modified_time" content="2021-06-09T11:49:35.623Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Algorithm">
 <meta name="twitter:card" content="summary">
@@ -155,40 +155,86 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-BFS-DFS" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-小马过河" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      BFS/DFS
+      小马过河
     </h1>
   
 
         
-        <a href="/2021/06/05/BFS-DFS/" class="archive-article-date">
-  	<time datetime="2021-06-05T02:54:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-05</time>
+        <a href="/2021/06/09/%E5%B0%8F%E9%A9%AC%E8%BF%87%E6%B2%B3/" class="archive-article-date">
+  	<time datetime="2021-06-09T11:43:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-06-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="BFS-amp-amp-DFS"><a href="#BFS-amp-amp-DFS" class="headerlink" title="BFS &amp;&amp; DFS"></a>BFS &amp;&amp; DFS</h3><blockquote>
-<p>DFS</p>
+        <blockquote>
+<p>题目</p>
 </blockquote>
-<p>从图中一个未访问的顶点V开始，沿着一条路一直走到底，然后从这条路尽头节点回退到上一个节点，再从另一条路开始走到底….不断递归重复，直到所有节点都遍历完成， <strong>不装南墙不回头</strong></p>
-<p><strong>Ex:</strong> 可以<strong>递归</strong>实现，也可以用<strong>栈</strong>实现树的DFS，一 对每个结点来说，先遍历当前节点V，再然后把v.right压栈，再压v.left(这样出栈的时候会先拿到左节点遍历，符合深搜要求)   二  弹栈，拿到栈顶节点，如果节点不为空，重复步骤一，为空，则结束遍历</p>
-<p>用在图的方位矩阵可以 </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[][] dir=&#123;&#123;<span class="number">0</span>,<span class="number">1</span>&#125;,&#123;<span class="number">0</span>,-<span class="number">1</span>&#125;,&#123;<span class="number">1</span>,<span class="number">0</span>&#125;,&#123;-<span class="number">1</span>,<span class="number">0</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
-
+<p>有n个人要过一条河，每个人过河都需要一个时间aiai，有一艘船，每次过河只能最多装两个人。两个人划船过河所需的时间都取决于过河时间长的那个人。比如，A，B两人过河所需时间分别为a，b，那么，他们成一条船过河所需的时间为：max{a，b}。现在让你安排一个过河方案，让所有人用最短的时间全部过河。<br>————————————————<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36306833/article/details/68941731">https://blog.csdn.net/qq_36306833/article/details/68941731</a></p>
 <blockquote>
-<p>BFS</p>
+<p>思路分析</p>
 </blockquote>
-<p>树的BFS也叫做层序遍历，从图中一个未访问的顶点V开始，再遍历这个节点的相邻节点，再依次遍历每个相邻节点的相邻节点。</p>
-<p>通常借助队列来完成，每层遍历先左后右</p>
-<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/756316">图文详解 DFS 和 BFS | 算法必看系列知识二十四-阿里云开发者社区 (aliyun.com)</a></p>
+<p>首先研究一个问题，就是在没过河的人有4个及4个以上的情况下，我们设其中四人为a、b、c、d，并且所需时间a&lt;b&lt;c&lt;d，那么，我现在想让c、d过河，然后再让船回到过河前的位置，准备好继续送其他的人过河。那么我这里有两种运载方式：</p>
+<ol>
+<li><p><strong>a分别送c d过河</strong>，因为a所需时间最小，所以每次把船送回来的时间也是最小的，选择a来送可能是最优方法，过河顺序为：</p>
+<ol>
+<li>a，c过河</li>
+<li>a返回</li>
+<li>a，d过河</li>
+<li>a返回</li>
+</ol>
+<p>消耗时间<code>t1=2a+c+d</code></p>
+</li>
+<li><p><strong>c d一起过河，由a,b负责把船运回，</strong>如果c,d过河时间都很长，那就让他们一起过去，这样就可以很有效的去除掉相比较来说所需时间较小的c的过河时间。然后我再让一个提前在对岸守好的b（之前由a送到对岸），再来把船还回去。过河顺序为：</p>
+<ol>
+<li>a，b过河</li>
+<li>a返回,b留下</li>
+<li>c，d过河</li>
+<li>b返回</li>
+</ol>
+<p>消耗时间<code>t2=2b+a+d</code>，<code>t1-t2=a+c-2b</code>，也就是说选择两种方案的哪一种，和<code>a+c−2b</code>的值有关。</p>
+<blockquote>
+<p><strong>贪心策略</strong></p>
+</blockquote>
+</li>
+</ol>
+<p>在要过河人数n≥4的时候，我先用上述两种方法中较好的一个，把最大的两个送过河（用过河时间最少的人作为上述方法的a，第二少的作为上述方法的b）。然后该问题就变成了：寻找把剩下的n-2个人送过河的最优策略。反复执行此策略，直到n=2时，显然两个人直接过去就行了，n=3时，用最小的分别把两个送过去为最优（三个人过河，显然就是：过去两个人，回来一个，在过去两个，两次过去两个的花费分别为：b、c，那这个回来的人，应该是a才能最快，也就是让a分别送b、c。）</p>
+<blockquote>
+<p>思路可行性证明</p>
+</blockquote>
+<blockquote>
+<ol>
+<li>为什么先送的应该是最慢的两个</li>
+</ol>
+</blockquote>
+<ol>
+<li><p>若a(1)+a(n-1)-2a(2)&lt;0, (分别对应上面的a,c,b)那么，就说明，用最小a1的分别单独送an−1,an优于让an−1和an一起过河,由于其他的a(i)（i&lt;n-1）&lt; a(n-1),  所以a(1)+a(i)-2a(2)&lt;0，所以让最小的a1分别送所有的人，优于让他们中的任意两个人组合一起过河。</p>
+</li>
+<li><p>若存在若干个 a(i)满足  a(1)+a(i)-2a(2)&gt;0   那么也就是说明，满足这个条件的这些ai都有一个特点，那就是，让他和任意一个比他大的一起过河，都应该是要优于让最小的分别送他和那个比他大的过河。对于这些满足这个条件的ai，应该让他们怎么组合，才能得到最优的结果呢：</p>
+<p>设x=2a(2)-a(1),  那么 a1≤a2≤….≤a(i−1)≤x≤ai≤…≤an</p>
+<p>对于x左边的，让a1分别送最好，对于x右边的，任意两个组合都比这两个单独让a1送要快。假设   让ai和an一起，aj和a(n−1)一起，那么他们的时间花费为：a(n−1)+an。   </p>
+<p>如果让 a(n−1)和an一起，ai和aj一起, 那么他们的时间花费为：an+max{ai,  aj}&lt;a(n−1)+an</p>
+<p><strong>所以  a(n−1)和an在一起一定优于让他们分别和其他的任意一个组合一起过河。</strong></p>
+</li>
+</ol>
+<blockquote>
+<ol start="2">
+<li>为什么要用最快的两个人帮助运送其他的人</li>
+</ol>
+</blockquote>
+<p>如果慢的人单独过，显然让最快的a1来送</p>
+<p>如果两人（最慢和次慢的）一起过，那么也显然是借用最快的a1,a2来进行船的调度最快。可以参照t1,t2公式</p>
+<p>实现代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CrossRiver</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">minCost</span><span class="params">(<span class="keyword">int</span>[] nums)</span></span>&#123;</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 每次过河时间取决于时间长的那个人</span></span><br><span class="line"><span class="comment">         * 先送最慢的两个人，用最快的两人帮助运送其他人</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="keyword">int</span> res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> len=nums.length;</span><br><span class="line">        Arrays.sort(nums);</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(len==<span class="number">1</span>) <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">            <span class="keyword">if</span>(len==<span class="number">2</span>) <span class="keyword">return</span> res+Math.max(nums[<span class="number">0</span>],nums[<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">if</span>(len==<span class="number">3</span>) <span class="keyword">return</span> res+nums[<span class="number">0</span>]+nums[<span class="number">1</span>]+nums[<span class="number">2</span>];</span><br><span class="line">            <span class="comment">//</span></span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * 最快的那个人(序号为0)分两次带最慢的两个人(序号为len-1，len-2)过河</span></span><br><span class="line"><span class="comment">             * (0,len-1)---&gt;0送len-1过来，所花时间为nums[len-1]</span></span><br><span class="line"><span class="comment">             * 0&lt;---len-1  0返回，所花时间为nums[0]</span></span><br><span class="line"><span class="comment">             * (0,len-2)---&gt;0送len-2过来,所花时间为nums[len-2]</span></span><br><span class="line"><span class="comment">             * 0&lt;---len-1,len-2  0返回，所花时间为nums[0]</span></span><br><span class="line"><span class="comment">             * 总共花的时间为  2*nums[0]+nums[len-1]+nums[len-2];</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="keyword">int</span> cost1=<span class="number">2</span>*nums[<span class="number">0</span>]+nums[len-<span class="number">1</span>]+nums[len-<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">            <span class="comment">/**</span></span><br><span class="line"><span class="comment">             * 如果最慢的两个人过河都需要很长时间，那就让他们两个一起过河</span></span><br><span class="line"><span class="comment">             * 最快的和第二快的那个人(序号为0，1)负责运船，最慢的两个人(序号为len-1，len-2)一起过河</span></span><br><span class="line"><span class="comment">             * (0,1)---&gt;0留下，所花时间为nums[1]</span></span><br><span class="line"><span class="comment">             * 1&lt;---0   1返回，所花时间为nums[1]</span></span><br><span class="line"><span class="comment">             * (len-2,len-1)---&gt;0   len-2,len-1过来，所花时间为nums[len-1]</span></span><br><span class="line"><span class="comment">             * 0，1&lt;---len-1,len-2  0把船送回去，所花时间为nums[0]</span></span><br><span class="line"><span class="comment">             * 总共花的时间为  2*nums[1]+nums[len-1]+nums[0];</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="keyword">int</span> cost2=<span class="number">2</span>*nums[<span class="number">1</span>]+nums[len-<span class="number">1</span>]+nums[<span class="number">0</span>];</span><br><span class="line">            len-=<span class="number">2</span>;</span><br><span class="line">            res += Math.min(cost1,cost2);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
 
@@ -279,7 +325,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/06/05/BFS-DFS/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/06/09/%E5%B0%8F%E9%A9%AC%E8%BF%87%E6%B2%B3/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -293,18 +339,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2021/06/09/%E5%B0%8F%E9%A9%AC%E8%BF%87%E6%B2%B3/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2021/06/09/%E4%B8%80%E9%81%93%E5%BF%AB%E6%89%8B%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%E9%A2%98/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          小马过河
+          一道快手高频面试题
         
       </div>
     </a>
   
   
-    <a href="/2021/05/30/first-Blog/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">first Blog</div>
+    <a href="/2021/06/05/BFS-DFS/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">BFS/DFS</div>
       <i class="icon-circle-right"></i>
     </a>
   
