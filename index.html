@@ -152,6 +152,95 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-不同的二叉搜索树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/07/16/%E4%B8%8D%E5%90%8C%E7%9A%84%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/">不同的二叉搜索树</a>
+    </h1>
+  
+
+        
+        <a href="/2021/07/16/%E4%B8%8D%E5%90%8C%E7%9A%84%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" class="archive-article-date">
+  	<time datetime="2021-07-16T02:54:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-07-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/unique-binary-search-trees/">96. 不同的二叉搜索树 - 力扣（LeetCode） (leetcode-cn.com)</a> </p>
+<p>给定一个整数n， 求恰由 <code>n</code> 个节点组成且节点值从 <code>1</code> 到 <code>n</code> 互不相同的 <strong>二叉搜索树</strong> 有多少种？ </p>
+<blockquote>
+<p>动态规划思路</p>
+</blockquote>
+<p>给定有序序列1<del>n，为了构建出一刻二叉搜索树，可以遍历每个数字i，将i作为根节点，1</del>(i-1)作为左子树，(i+1)~n作为右子树，并且可以按同样的方式递归构建左子树和右子树。</p>
+<p>由于根节点的值不同，因此可以保证每棵二叉搜索树都是唯一的，原问题可以分解成两个规模较小的子问题，且子问题的解可以复用，因此用动态规划</p>
+<p>在这里定义两个函数</p>
+<ol>
+<li><code>G(n)</code>：长度为<code>n</code>的序列能构成的不同的二叉搜索树的个数</li>
+<li><code>F(i,n)</code>：以<code>i</code>为根节点，序列长度为<code>n</code>的不同二叉搜索树的个数(i&lt;=i&lt;=n)</li>
+</ol>
+<p>$$<br>G(n)=\sum_{i=1}^{n}{F(i,n)}<br>$$</p>
+<p>对于边界情况，序列长度为1（只有根）或为0（空树）时，只有一种情况，即：<br>$$<br>G(0)=1,G(1)=1<br>$$<br>对于<code>F(i,n)</code>，其值等于左子树集合和右子树集合的笛卡尔积，举例： 创建以 3 为根、长度为 7 的不同二叉搜索树，整个序列是[1,2,3,4,5,6,7] ，需要从左子序列[1,2]构建左子树，右子序列[4,5,6,7]构建右子树，然后再将它们组合（即笛卡尔积），因此可得：<br>$$<br>F(i,n)=G(i-1)*G(n-i)<br>$$<br>结合以上两个公式可得<code>G(n)</code>的递归表达式<br>$$<br>G(n)=\sum_{i=1}^{n}{G(i-1)*G(n-i)}<br>$$<br>因此我们从小到大计算G函数即可，代码实现如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numTrees</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[] G=<span class="keyword">new</span> <span class="keyword">int</span>[n+<span class="number">1</span>];</span><br><span class="line">    G[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">    G[<span class="number">1</span>]=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=i;j++)&#123;</span><br><span class="line">            G[i] += G[j-<span class="number">1</span>]*G[i-j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> G[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Algorithm</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/07/16/%E4%B8%8D%E5%90%8C%E7%9A%84%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-一道快手高频面试题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
