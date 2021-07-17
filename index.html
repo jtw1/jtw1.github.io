@@ -221,7 +221,8 @@ G(n)=(4n-2)*G(n-1)/(n+1)  条件n>=1</script><p>在本题中代码实现如下</
 <p>于是，不合法的方案数<code>C(2n,n+1)</code>，因此</p>
 <script type="math/tex; mode=display">
 Catalan(n)=C(2n,n)-C(2n,n+1)</script><p>还能继续化简，即上文所说的卡特兰数一般公式</p>
-<p> <img src="https://bkimg.cdn.bcebos.com/pic/6a600c338744ebf8721584d7d7f9d72a6159a7f6?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2UxNTA=,g_7,xp_5,yp_5/format,f_auto" alt="img" style="zoom: 33%;" /> </p>
+<script type="math/tex; mode=display">
+Catalan(n)=(2n)!/(n!*n!)-(2n)!/((n+1)!*(n-1)!)</script><p> <img src="https://bkimg.cdn.bcebos.com/pic/6a600c338744ebf8721584d7d7f9d72a6159a7f6?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2UxNTA=,g_7,xp_5,yp_5/format,f_auto" alt="img" style="zoom: 33%;" /> </p>
 
       
 
@@ -1010,5 +1011,21 @@ MathJax.Hub.Queue(function() {
 
 </div>
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
