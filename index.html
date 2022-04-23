@@ -152,6 +152,231 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-build-Electron-NET-development-enviroment" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/04/23/build-Electron-NET-development-enviroment/">build Electron.NET development enviroment</a>
+    </h1>
+  
+
+        
+        <a href="/2022/04/23/build-Electron-NET-development-enviroment/" class="archive-article-date">
+  	<time datetime="2022-04-23T11:47:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-04-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h1><p>使用Electron.NET进行开发，不论是在Windows系统下，还是在Linux系统下，确保计算机已安装：</p>
+<ol>
+<li>Node.js</li>
+<li>NPM</li>
+<li>dotnet CLI Electron.NET 全局工具： ElectronNET.CLI</li>
+<li>.NET 5.0以上的SDK</li>
+</ol>
+<h1 id="Windows系统下环境搭建"><a href="#Windows系统下环境搭建" class="headerlink" title="Windows系统下环境搭建"></a>Windows系统下环境搭建</h1><h2 id="操作系统及IDE"><a href="#操作系统及IDE" class="headerlink" title="操作系统及IDE"></a>操作系统及IDE</h2><p>Windows 7及以上，X86/X64架构的即可。</p>
+<p>IDE使用的是 <code>Visual Studio 2019</code></p>
+<h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><h3 id="Node-js及npm的安装"><a href="#Node-js及npm的安装" class="headerlink" title="Node.js及npm的安装"></a>Node.js及npm的安装</h3><p><a target="_blank" rel="noopener" href="http://nodejs.cn/download/">下载地址</a>  选择与自己电脑对应的(32位/64位)Windows安装包(.msi)下载即可，一般默认选择的是最新版本。下载完成之后 双击 .msi 文件，运行，一路next下去，直到安装完成。</p>
+<h4 id="检测是否安装成功"><a href="#检测是否安装成功" class="headerlink" title="检测是否安装成功"></a>检测是否安装成功</h4><p><code>win+r</code> 输入<code>cmd</code> 打开命令行，输入<code>node -v</code>查看是否安装成功，输入<code>npm -v</code>查看集成的 <code>npm</code>是否正确安装。如果命令都输出对应的版本号，如下图，表示安装成功了。如果提示系统未识别的指令，则将node.exe文件<strong>所在路径</strong>添加到系统的环境变量中。</p>
+<p><img src="pic/1649904063121.png" alt="1649904063121" style="zoom:80%;" /></p>
+<h4 id="基本设置"><a href="#基本设置" class="headerlink" title="基本设置"></a>基本设置</h4><p>下载<code>npm</code>的原因是通过他去下载功能丰富的各种组件，<code>npm</code>的全局模块和缓存模块默认是在C盘，为了便于管理，我们需要新建两个文件夹 ：node_global(全局模块)和node_cache(缓存模块)。 这里注意两个文件夹的名字必须是这个，否则后期可能会报错。同样是在命令行窗口中设置<code>npm</code>的全局模块和缓存模块。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator&gt;npm config <span class="built_in">set</span> prefix <span class="string">&quot;创建的node_global文件夹所在路径&quot;</span>      <span class="comment">#设置全局模块 </span></span><br><span class="line"></span><br><span class="line">C:\Users\Administrator&gt;npm config <span class="built_in">set</span> cache <span class="string">&quot;创建的node_cache文件夹所在路径&quot;</span>          <span class="comment">#设置缓存模块</span></span><br><span class="line"></span><br><span class="line">C:\Users\Administrator&gt;npm config get prefix   <span class="comment">#查看全局模块所在路径</span></span><br><span class="line"></span><br><span class="line">C:\Users\Administrator&gt;npm config get cache   <span class="comment">#查看缓存模块所在路径</span></span><br></pre></td></tr></table></figure>
+<h4 id="npm镜像源设置"><a href="#npm镜像源设置" class="headerlink" title="npm镜像源设置"></a>npm镜像源设置</h4><p><code>npm</code>的下载源默认是一个国外的网站，下载速度比较慢.为了提高下载速度。解决方案之一是 将下载源设置成淘宝源。另一种方式使用<code>cnpm</code>下载。<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1588050">设置npm源的几种方式</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># the original source</span></span><br><span class="line">https://registry.npmjs.org/</span><br><span class="line"></span><br><span class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org  <span class="comment">#设置成淘宝源</span></span><br><span class="line"></span><br><span class="line">npm config get registry  <span class="comment">#查看结果</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#安装cnpm 其中-g表示全局安装</span></span><br><span class="line">npm install -g cnpm  </span><br><span class="line"></span><br><span class="line">cnpm -v        <span class="comment"># 输出版本号表示cnpm安装成功,以后就可以用cnpm替代npm进行下载了</span></span><br></pre></td></tr></table></figure>
+<h3 id="NET-SDK安装"><a href="#NET-SDK安装" class="headerlink" title=".NET SDK安装"></a>.NET SDK安装</h3><p> <a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/zh-cn/download/dotnet/5.0">下载地址</a>  选择与自己电脑对应的(32位/64位)Windows安装程序下载即可，5.0以上即可。下载完成之后 双击运行安装程序，一路next下去，直到安装完成。<code>win+r</code> 输入<code>cmd</code> 打开命令行，输入<code>dotnet --info</code>查看是否安装成功,显示以下结果表示安装成功。</p>
+<p><img src="pic/1649906548492.png" alt="1649906548492" style="zoom: 80%;" /></p>
+<h3 id="ElectronNET-CLI的安装"><a href="#ElectronNET-CLI的安装" class="headerlink" title="ElectronNET.CLI的安装"></a>ElectronNET.CLI的安装</h3><p>在cmd控制台中，通过运行以下指令安装，使用的是13.5.1版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\wjt&gt;dotnet tool install ElectronNET.CLI -g --version 13.5.1</span><br></pre></td></tr></table></figure>
+<h1 id="Linux系统下环境搭建"><a href="#Linux系统下环境搭建" class="headerlink" title="Linux系统下环境搭建"></a>Linux系统下环境搭建</h1><h2 id="操作系统及IDE-1"><a href="#操作系统及IDE-1" class="headerlink" title="操作系统及IDE"></a>操作系统及IDE</h2><p><strong>操作系统</strong>：海光CPU+Deepin 20.3，其他的发行版如<code>Debian</code>，<code>CentOS</code>，<code>Ubuntu</code>均可，安装过程中除了部分指令不同，其他的的大同小异。</p>
+<p><strong>IDE</strong>：JetBrains Rider 2021.2版本</p>
+<h2 id="安装步骤-1"><a href="#安装步骤-1" class="headerlink" title="安装步骤"></a>安装步骤</h2><h3 id="Node-js及npm的安装-1"><a href="#Node-js及npm的安装-1" class="headerlink" title="Node.js及npm的安装"></a>Node.js及npm的安装</h3><p><a target="_blank" rel="noopener" href="http://nodejs.cn/download/">下载地址</a>　选择系统对应的的Linux二进制文件下载。为了方便管理，先在本地创建一个文件夹，下载的二进制文件放到这个文件夹下（以下指令都在在MATE终端中输入的）　</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir Nodejs     <span class="comment">#创建文件夹 Nodejs</span></span><br><span class="line"><span class="built_in">cd</span> Nodejs        <span class="comment">#进入文件夹 Nodejs</span></span><br><span class="line">＃在该目录下解压下载的文件，该文件</span><br><span class="line">tar -xvf node-v14.16.0-linux-x64.tar</span><br></pre></td></tr></table></figure>
+<h4 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h4><p>打开profile文件，这里编辑器使用的是vim(如果对vim不熟悉，见<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhang_yu_ling/article/details/103777714">vim常见使用</a>)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/profile</span><br></pre></td></tr></table></figure>
+<p>复制这两行到profile文件最底部（注意node的安装地址是<code>/Nodejs/node-v14.16.0-linux-x64</code>,注意换成自己的安装地址）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> NODE_HOME=/Nodejs/node-v14.16.0-linux-x64</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$NODE_HOME</span>/bin</span><br></pre></td></tr></table></figure>
+<p>保存后退出，再执行下面命令将环境变量生效</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+<p>执行上面的指令之后没有输出表示已生效。如果出现报错信息，表示环境变量未设置成功。</p>
+<h4 id="建立安装目录软链接"><a href="#建立安装目录软链接" class="headerlink" title="建立安装目录软链接"></a>建立安装目录软链接</h4><p>将目录软链接到全局环境下，相当于是全局安装了，在终端输入 <code>node</code>开头的指令，不会显示找不到指令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#软链接指令  ln -s 要链接的文件a所在目录/文件a 目标目录/文件a   表示将文件a链接到目标目录</span></span><br><span class="line">ln -s /Nodejs/node-v14.16.0-linux-x64/bin/node /usr/<span class="built_in">local</span>/bin/node</span><br><span class="line">ln -s /Nodejs/node-v14.16.0-linux-x64/bin/npm /usr/<span class="built_in">local</span>/bin/npm</span><br></pre></td></tr></table></figure>
+<p> 如果没有权限则在<code>ln</code> 前面加上<code>sudo</code>运行，注意：<code>/bin/node</code>和<code>/usr/local</code>是两个地址 ,中间有空格且需要一起执行完 。</p>
+<p>在终端分别输入 <code>node -v</code>    和<code>npm -v</code>，如果可以输出版本号，表示Node.js和npm已安装成功，如下图所示</p>
+<p><img src="pic/1650091735453.png" alt="1650091735453"></p>
+<p>之后设置缓存模块，全局模块，<code>npm</code>镜像源和使用<code>npm</code>安装<code>electron</code>的方式和在<code>Windows</code>系统下的方法一样，只不过这里是在<code>MATE</code>终端中运行，<a href="####2. 基本设置">详见此处</a>。</p>
+<p>这样安装好了之后，使用<code>npm</code>来安装各种包（如electron），使用包的命令时可能会提示找不到命令，这时，在用户目录下终端执行下面的命令即可（固定写法）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;export PATH=<span class="subst">$(npm prefix -g)</span>/bin:<span class="variable">$PATH</span>&quot;</span> &gt;&gt; ~/.bashrc &amp;&amp; <span class="built_in">source</span> ~/.bashrc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这样，在所有用户下，都可以使用<code>npm</code>，也可以使用<code>npm</code>安装包的命令。</p>
+<h4 id="补充"><a href="#补充" class="headerlink" title="补充"></a><strong>补充</strong></h4><p>/etc/profile是整个Linux系统存储环境变量的文件（<strong>很重要</strong>），如果错误修改的话，可能会导致正常情况下的指令，像<code>sudo, vi, pwd</code>等无法使用，甚至在正确输入账号密码的时候无法进入Linux系统。如果是碰到无法进入系统的情况，解决方案如下：</p>
+<ol>
+<li><p>在登陆界面，按 <code>ctrl+Alt+(F1~F6)</code>其中一个。不同电脑可能不同，我在这里就被坑了好久，好多地方都说是<code>ctrl+Alt+F1</code>，然而这台电脑是<code>ctrl+Alt+F2</code>，终于进入了<code>MATE</code>终端，接下来就是修改文件。</p>
+</li>
+<li><p>之前由于环境变量错误修改，导致很多指令不能使用，需要使用该指令的绝对路径。在这里   <code>sudo=/usr/bin/sudo</code>  <code>vi=/usr/bin/vi</code> </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/sudo /usr/bin/vi /etc/profile   <span class="comment">#相当于之前的 “sudo vi /etc/profile”</span></span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后会提示输入账号密码（这里输入密码时在屏幕上是看不到的，*也没有，所以注意一下正确输入即可），然后进入到profile文件，按<code>a</code>再回车进入编辑模式，将之前加的错误的语句修改，按<code>ESC</code>退出编辑模式，再输入 <code>:w</code> 保存文件，最后输入  <code>:q</code> 回到命令行，然后重启就可以正常登陆了。（遇到无法系统无法登陆的问题还可以参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/wjeson/article/details/9029995">Linux系统账户无法登录怎么办</a>）</p>
+</li>
+</ol>
+<p>之前将<code>node,npm</code>软链接到全局环境下，为什么连接到<code>/usr/local/bin</code>目录下，<code>/usr/local</code>表示当前用户的本地文件目录，Linux系统中每一个用户都有一个这样的文件夹，用户存放用户相关的数据，<code>bin</code> 是 <code>Binaries</code> (二进制文件) 的缩写, 这个目录存放着最经常使用的命令。</p>
+<h3 id="NET-SDK安装-1"><a href="#NET-SDK安装-1" class="headerlink" title=".NET SDK安装"></a>.NET SDK安装</h3><p> <a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/zh-cn/download/dotnet/5.0">下载地址</a>  选择与自己电脑对应的(32位/64位)Linux程序包下载，5.0以上版本即可。程序包名为 dotnet-sdk-5.0.407-linux-x64.tar.gz </p>
+<p>在程序包所在目录下，打开终端，依次运行以下指令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="variable">$HOME</span>/dotnet &amp;&amp; tar zxf dotnet-sdk-5.0.407-linux-x64.tar.gz -C <span class="variable">$HOME</span>/dotnet</span><br><span class="line"><span class="built_in">export</span> DOTNET_ROOT=<span class="variable">$HOME</span>/dotnet</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$HOME</span>/dotnet</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>任意打开一个终端输入<code>dotnet --info</code>,如果输出相关版本信息，如下图所示，表示.NET SDK 安装成功，若还是显示系统未识别的指令，尝试将dotnet 的可执行文件所在软链接到usr/local/bin目录下</p>
+<p><img src="pic/1650091907906.png" alt="1650091907906"></p>
+<h3 id="ElectronNET-CLI的安装-1"><a href="#ElectronNET-CLI的安装-1" class="headerlink" title="ElectronNET.CLI的安装"></a>ElectronNET.CLI的安装</h3><p>在终端中，通过运行以下指令安装，使用的是13.5.1版本</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dotnet tool install ElectronNET.CLI -g --version 13.5.1</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这一步会下载名为 electronize的可执行文件，注意这里下载完成之后要建立 electronize的可执行文件所在目录的软链接或者将 electronize的可执行文件所在目录添加到系统环境变量中，否则后面执行 electronize指令时系统可能无法识别，Windows系统则不存在这样的问题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立软链接</span></span><br><span class="line">sudo ln -s  electronize所在目录/electronize  /usr/bin/electronize </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="Electron-NET工程创建"><a href="#Electron-NET工程创建" class="headerlink" title="Electron.NET工程创建"></a>Electron.NET工程创建</h1><h2 id="创建工程"><a href="#创建工程" class="headerlink" title="创建工程"></a>创建工程</h2><p>Electron.NET工程项目使用的是ASP.NET Core Web应用(MVC)模板(Windows系统下的Visual Studio和Linux系统下的Rider均选用此项目模板来创建工程)，如下图</p>
+<p><img src="pic/1650006080284.png" alt="1650006080284"></p>
+<p>创建完成之后，基本工程目录如下图所示(Services目录，package.json和package-lock.json是后面自己添加的，可忽略)</p>
+<p><img src="pic/1650007680066.png" alt="1650007680066" style="zoom:80%;" /></p>
+<h2 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h2><p>工程创建完成之后，需要给项目添加ElectronNET.API的NuGet包(这里选择的是13.5.1版本)，具体步骤如下：</p>
+<blockquote>
+<p>Rider中</p>
+</blockquote>
+<p>依次点击顶部菜单栏的Tools—-&gt;NuGet——&gt;Manage NuGet Packages …</p>
+<p><img src="pic/1650008412626.png" alt="1650008412626"></p>
+<p>然后在打开的窗口中搜索 ElectronNET.API，再选择ElectronNET.API包及其对应的合适的版本号，最后给对应项目添加依赖，如下图所示</p>
+<p><img src="pic/1650008873448.png" alt="1650008873448"></p>
+<p><img src="pic/1650008919934.png" alt="1650008919934"></p>
+<blockquote>
+<p>Visual Studio 2019中</p>
+</blockquote>
+<p>依次点击顶部菜单栏的工具—-&gt;NuGet包管理器——&gt;管理解决方案的NuGet 程序包</p>
+<p><img src="pic/1650009216297.png" alt="1650009216297"></p>
+<p>然后类似的在打开的窗口中搜索 ElectronNET.API，再选择ElectronNET.API包及其对应的合适的版本号，最后给对应项目添加依赖，如下图所示</p>
+<p><img src="pic/1650009802829.png" alt="1650009802829"></p>
+<h2 id="项目配置"><a href="#项目配置" class="headerlink" title="项目配置"></a>项目配置</h2><blockquote>
+<p>更改Program.cs</p>
+</blockquote>
+<p>更改<code>CreateHostBuilder</code>方法，所作更改表示将Electron作为整个web应用程序的宿主，同时注意在文件头部引入对应的命名空间。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public static IHostBuilder CreateHostBuilder(string[] args) =&gt;</span><br><span class="line">       Host.CreateDefaultBuilder(args)</span><br><span class="line">          .ConfigureWebHostDefaults(webBuilder =&gt;</span><br><span class="line">          &#123;</span><br><span class="line">              webBuilder.UseElectron(args); //添加的部分</span><br><span class="line">              webBuilder.UseStartup&lt;Startup&gt;();</span><br><span class="line">           &#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>更改Startup.cs</p>
+</blockquote>
+<p>首先在文件中添加以下方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public async void ElectronBootstrap()</span><br><span class="line">&#123;</span><br><span class="line">    var size = await Electron.Screen.GetPrimaryDisplayAsync();</span><br><span class="line">    BrowserWindow browserWindow = await Electron.WindowManager.CreateWindowAsync</span><br><span class="line">                          (new BrowserWindowOptions</span><br><span class="line">                          &#123;</span><br><span class="line">                              //窗口属性配置项,长度，宽度等</span><br><span class="line">                              ...</span><br><span class="line">                           &#125;);</span><br><span class="line">     browserWindow.OnReadyToShow += () =&gt; browserWindow.Show();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>然后在<code>Configure(IApplicationBuilder app, IWebHostEnvironment env)</code>方法的末尾添加如下代码段</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (HybridSupport.IsElectronActive)</span><br><span class="line">&#123;</span><br><span class="line">    ElectronBootstrap();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h2><p>在第一次运行Electron.NET项目之前，需要对整个项目进行初始化，在工程的根目录下(即Program.cs文件所在目录下)，打开终端或者cmd控制台，执行 <code>electronize init</code>，执行完成之后，工程的根目录下会增加一个electron.manifest.json文件</p>
+<h2 id="运行项目"><a href="#运行项目" class="headerlink" title="运行项目"></a>运行项目</h2><p>至此，环境已基本配置完，可以通过指令启动项目，也可通过配置启动项的方式，在IDE中点击运行按钮来运行项目</p>
+<blockquote>
+<p>指令启动</p>
+</blockquote>
+<p>在工程的根目录下打开终端或者cmd控制台，执行 <code>electronize start</code>，即可启动项目，第一次启动时会下载所需的npm包，所以会稍微慢一些，后面运行的话会快很多。</p>
+<blockquote>
+<p>直接通过IDE启动</p>
+</blockquote>
+<p>工程的启动项配置文件为  工程根目录/Properties/launchSettings.json，执行 <code>electronize init</code>之后该文件会自动添加 Electron.NET项目的启动项配置信息，Visual Studio 2019中无需作任何更改，将启动项改为Electron.NET项目的启动项，然后点击运行按钮即可启动Electron.NET项目。</p>
+<p>而在Linux系统下的Rider中，需将Electron.NET项目启动项中的 <code>&quot;workingDirectory&quot;</code>属性设置为.sln文件所在目录（可用  <code>$(SolutionDir)</code>  表示，这样在不同电脑上移动时无需更改），然后将启动项改为Electron.NET项目的启动项，然后点击运行按钮即可启动Electron.NET项目。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;Electron.NET App&quot;</span>: &#123;</span><br><span class="line">      <span class="attr">&quot;commandName&quot;</span>: <span class="string">&quot;Executable&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;executablePath&quot;</span>: <span class="string">&quot;electronize&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;commandLineArgs&quot;</span>: <span class="string">&quot;start&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;workingDirectory&quot;</span>: <span class="string">&quot;F:/NBA/Electron/GraduationProject/Electron-Oscilloscope&quot;</span>,</span><br><span class="line">      <span class="attr">&quot;nativeDebugging&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">&quot;environmentVariables&quot;</span>: &#123;</span><br><span class="line">        <span class="attr">&quot;ASPNETCORE_ENVIRONMENT&quot;</span>: <span class="string">&quot;Development&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;ASPNETCORE_HOSTINGSTARTUPASSEMBLIES&quot;</span>: <span class="string">&quot;Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>要添加启动配置参数时，只需在<code>&quot;commandLineArgs&quot;</code>属性对应的start后面 添加对应的启动配置参数名 和值</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;commandLineArgs&quot;</span>: <span class="string">&quot;start /PublishSingleFile false&quot;</span> </span><br><span class="line">&#125; </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>由之前的介绍可知，第一次运行项目时，会执行 <code>npm install</code> 的操作，此操作会下载package.json(在工程根目录/obj/Host目录下)文件注明的所有dependency依赖，包括最重要的Electron的npm包，项目运行时可能会卡在 electron的依赖包下载这一步，比如卡在这一步</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> electron@13.6.3 postinstall /home/huyang/Desktop/wjt/Electron_Oscilloscope_latest/Electron_Oscilloscope_latest/obj/Hostde_modules/electron</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> node install.js</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>甚至时间过长最后报错 <code>RequestError: read ETIMEDOUT</code>，这是因为npm的软件源是国外网站，导致下载速度过慢导致的，但是之前已经把npm的软件源设置为淘宝镜像源，下载速度还是很慢，可能是未全局设置，这里可以通过nrm来管理可用的npm 包的源地址，而不需要手动去输入npm的源地址，命令行模式下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 全局安装nrm</span></span><br><span class="line">npm install nrm -g</span><br><span class="line"><span class="meta">#</span><span class="bash">查看可用源地址</span></span><br><span class="line">nrm ls</span><br><span class="line"><span class="meta">#</span><span class="bash">切换源地址</span></span><br><span class="line">nrm use taobao</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash">然后通过npm install xxx 的方式就可以快速下载包了</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>详见 <a target="_blank" rel="noopener" href="https://kylebing.blog.csdn.net/article/details/119064767?spm=1001.2101.3001.6650.14&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7Eessearch%7Evector-14.fixedcolumn&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7Eessearch%7Evector-14.fixedcolumn"> 安装 electon 的时候报错 RequestError: read ETIMEDOUT</a></p>
+<p>如果这么操作还是不行的话，进入<code>obj/Host/node_modules/electron</code>文件夹下（<strong>注意</strong>：这个文件夹可能不存在，但是在执行<code>node install.js</code>的过程中却能找到该文件夹，项目运行意外终止后该文件夹却没有了。<strong>解决办法</strong>：项目运行过程中，注意看控制台窗口或终端，当执行到<code>node install.js</code>这一步，按<code>Ctrl+C</code>终止运行，此时该文件夹是存在的），编辑install.js，修改downloadArtifact这段代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">downloadArtifact(&#123;</span><br><span class="line">  version,</span><br><span class="line">  <span class="attr">artifactName</span>: <span class="string">&#x27;electron&#x27;</span>,</span><br><span class="line">  <span class="attr">force</span>: process.env.force_no_cache === <span class="string">&#x27;true&#x27;</span>,</span><br><span class="line">  <span class="attr">cacheRoot</span>: process.env.electron_config_cache,</span><br><span class="line">  <span class="attr">platform</span>: process.env.npm_config_platform || process.platform,</span><br><span class="line">  <span class="attr">arch</span>: process.env.npm_config_arch || process.arch,</span><br><span class="line">    <span class="comment">//添加的部分</span></span><br><span class="line">    <span class="attr">mirrorOptions</span>: &#123;</span><br><span class="line">        <span class="attr">mirror</span>: <span class="string">&#x27;https://npm.taobao.org/mirrors/electron&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;).then(extractFile).catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.error(err.stack);</span><br><span class="line">  process.exit(<span class="number">1</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>然后在<code>obj/Host/node_modules/electron</code>的cmd中执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node install.js</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>再继续使用 <code>electronize start</code>启动工程</p>
+<h2 id="项目调试"><a href="#项目调试" class="headerlink" title="项目调试"></a>项目调试</h2><blockquote>
+<p>环境介绍</p>
+</blockquote>
+<p>IDE：Rider 2021.2  /  visual studio 2019</p>
+<p>操作系统：deepin（Linux x64）   /    Windows(x64)</p>
+<p>Electron.NET应用分为两大进程：主进程和渲染进程，各自调试的方式有一定区别。<strong>本项目中，主进程即整个后端(基于C#语言)，前端中主窗口和所有子窗口分别代表一个渲染进程，主要基于JavaScript语言。</strong></p>
+<h3 id="主进程调试"><a href="#主进程调试" class="headerlink" title="主进程调试"></a>主进程调试</h3><p>主进程调试和普通应用的调试有很大的不同，先在需要调试的代码处打断点，具体步骤如下</p>
+<ol>
+<li>启动electron.net应用</li>
+<li>点击顶部选项栏中的 “Run”——&gt;”Attach to Process”，在弹出的窗口中选择electron应用窗口启动的那个进程</li>
+<li>打开electron应用的开发者工具（<strong>快捷键  “Ctrl+Shift+I” </strong>），然后按 <code>ctrl+R</code>重新加载应用，即可在IDE中调试后端C#代码</li>
+</ol>
+<blockquote>
+<p><strong>rider中</strong></p>
+</blockquote>
+<p><img src="pic/1650015030324.png" alt="1650015030324"></p>
+<p>选择Electron.NET应用启动的进程</p>
+<p><img src="pic/1650088460537.png" alt="1650088460537"  /></p>
+<p>在应用的开发者工具下按 <code>ctrl+R</code>重新加载应用，即可调试主进程</p>
+<p><img src="pic/1650092266829.png" alt="1650092266829"></p>
+<blockquote>
+<p><strong>visual Studio 2019中</strong></p>
+</blockquote>
+<p><img src="pic/1650015226690.png" alt="1650015226690" style="zoom:80%;" /></p>
+<p>选择Electron.NET应用启动的进程（项目名为Electron-Oscilloscope）</p>
+<p><img src="pic/1650090330590.png" alt="1650090330590" style="zoom:80%;" /></p>
+<p>在应用的开发者工具下按 <code>ctrl+R</code>重新加载应用，即可调试主进程</p>
+<p><img src="pic/1650090479004.png" alt="1650090479004"></p>
+<h3 id="渲染进程调试"><a href="#渲染进程调试" class="headerlink" title="渲染进程调试"></a>渲染进程调试</h3><p>选择了Electron应用的启动配置项之后，</p>
+<ol>
+<li>rider/Visual Studio中点击启动按钮（绿色三角形）正常启动Electron.NET应用，</li>
+<li>打开Electron应用窗口的开发者工具（<strong>快捷键  “Ctrl+Shift+I” </strong>），</li>
+<li>点击source标签，然后在需要调试的代码中打断点，</li>
+<li><code>ctrl+R</code>重新加载即可调试渲染进程。</li>
+</ol>
+<p><img src="pic\1650091251048.png" alt="1650091251048"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Electron.NET</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/04/23/build-Electron-NET-development-enviroment/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-不同的二叉搜索树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -746,7 +971,7 @@ Catalan(n)=(2n)!/(n!*n!)-(2n)!/((n+1)!*(n-1)!)</script><p> <img src="https://bki
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2021 jt_w
+    		&copy; 2022 jt_w
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -855,6 +1080,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Algorithm</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Electron.NET</a>
               </li>
             
             <div class="clearfix"></div>
@@ -1011,21 +1240,5 @@ MathJax.Hub.Queue(function() {
 
 </div>
   </div>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
